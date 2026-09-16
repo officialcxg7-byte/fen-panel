@@ -1,0 +1,7 @@
+{
+  "python.defaultInterpreterPath": "C:\\Users\\HP ProBook 530 G5\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+  "python.analysis.extraPaths": [
+    "."
+  ],
+  "python-envs.defaultEnvManager": "ms-python.python:system"
+}
