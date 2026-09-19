@@ -7,6 +7,7 @@ import discord
 from discord.ext import commands
 
 from .panels import DASHBOARD_BANNER, DashboardView, FOOTER_IMAGE, files_for
+from .sessions import monitor_session_startups, send_sessions_panel
 
 
 def load_env_file() -> None:
@@ -42,6 +43,7 @@ class FenBot(commands.Bot):
 
     async def setup_hook(self) -> None:
         self.add_view(DashboardView())
+        self.loop.create_task(monitor_session_startups(self))
 
 
 bot = FenBot()
@@ -51,6 +53,12 @@ bot = FenBot()
 @commands.has_guild_permissions(manage_guild=True)
 async def dash(ctx: commands.Context) -> None:
     await ctx.send(view=DashboardView(), files=files_for(DASHBOARD_BANNER, FOOTER_IMAGE))
+
+
+@bot.command(name="sessions")
+@commands.has_guild_permissions(manage_guild=True)
+async def sessions(ctx: commands.Context) -> None:
+    await send_sessions_panel(ctx)
 
 
 def main() -> None:
