@@ -55,7 +55,7 @@ async def dash(ctx: commands.Context) -> None:
     await ctx.send(view=DashboardView(), files=files_for(DASHBOARD_BANNER, FOOTER_IMAGE))
 
 
-@bot.command(name="sessions")
+@bot.command(name="session", aliases=["sessions"])
 @commands.has_guild_permissions(manage_guild=True)
 async def sessions(ctx: commands.Context) -> None:
     await send_sessions_panel(ctx)

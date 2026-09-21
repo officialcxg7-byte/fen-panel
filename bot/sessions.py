@@ -13,7 +13,7 @@ import discord
 from discord import ui
 from discord.ext import commands
 
-from .panels import ACCENT, ASSET_DIR, PanelImage, add_asset_gallery, files_for
+from .panels import ACCENT, ASSET_DIR, FOOTER_IMAGE, PanelImage, add_asset_gallery, files_for
 
 
 SESSION_ROLE_ID = 1516030618687897640
@@ -159,6 +159,7 @@ class SessionsPanelView(ui.LayoutView):
         )
         notifications_button.callback = self.enable_notifications
         container.add_item(ui.ActionRow(status_button, quick_join_button, notifications_button))
+        add_asset_gallery(container, FOOTER_IMAGE)
         self.add_item(container)
 
     def server_information_text(self) -> str:
@@ -268,7 +269,7 @@ class SessionOnlineDmView(ui.LayoutView):
 
 async def send_sessions_panel(ctx: commands.Context) -> None:
     stats = await fetch_session_stats()
-    await ctx.send(view=SessionsPanelView(stats), files=files_for(SESSIONS_BANNER))
+    await ctx.send(view=SessionsPanelView(stats), files=files_for(SESSIONS_BANNER, FOOTER_IMAGE))
 
 
 async def monitor_session_startups(bot: commands.Bot) -> None:
