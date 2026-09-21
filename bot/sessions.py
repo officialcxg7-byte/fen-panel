@@ -20,7 +20,7 @@ SESSION_ROLE_ID = 1516030618687897640
 FLORIDA_EMOJI = "<:Florida:1546462024899502130>"
 RED_DOT_EMOJI = "<:reddot:1550805381897519114>"
 JOIN_URL = "https://erlc.gg/join?code=gXrqU"
-ERLC_BASE_URL = "https://api.policeroleplay.community/v1"
+ERLC_BASE_URL = "https://api.erlc.gg/v1"
 
 SESSIONS_BANNER = PanelImage(ASSET_DIR / "sessions.png", "sessions.png")
 SUBSCRIBERS_PATH = Path(__file__).with_name("data") / "session_subscribers.json"
