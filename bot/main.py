@@ -6,8 +6,8 @@ from pathlib import Path
 import discord
 from discord.ext import commands
 
-from .panels import DASHBOARD_BANNER, DashboardView, FOOTER_IMAGE, files_for
-from .sessions import monitor_session_startups, send_sessions_panel
+from .panels import DASHBOARD_BANNER, BannerLinksView, DashboardView, FOOTER_IMAGE, fallback_files_for, remember_dashboard_message
+from .sessions import SessionsPanelView, SessionStats, monitor_session_startups, send_sessions_panel
 
 
 def load_env_file() -> None:
@@ -43,6 +43,7 @@ class FenBot(commands.Bot):
 
     async def setup_hook(self) -> None:
         self.add_view(DashboardView())
+        self.add_view(SessionsPanelView(SessionStats()))
         self.loop.create_task(monitor_session_startups(self))
 
 
@@ -52,13 +53,18 @@ bot = FenBot()
 @bot.command(name="dash")
 @commands.has_guild_permissions(manage_guild=True)
 async def dash(ctx: commands.Context) -> None:
-    await ctx.send(view=DashboardView(), files=files_for(DASHBOARD_BANNER, FOOTER_IMAGE))
+    message = await ctx.send(view=DashboardView(), files=fallback_files_for(("dashboard", DASHBOARD_BANNER), ("footer", FOOTER_IMAGE)))
+    remember_dashboard_message(message)
 
 
 @bot.command(name="session", aliases=["sessions"])
-@commands.has_guild_permissions(manage_guild=True)
 async def sessions(ctx: commands.Context) -> None:
     await send_sessions_panel(ctx)
+
+
+@bot.command(name="banners")
+async def banners(ctx: commands.Context) -> None:
+    await ctx.send(view=BannerLinksView())
 
 
 def main() -> None:
